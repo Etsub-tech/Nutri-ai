@@ -1,0 +1,132 @@
+# config/db.js
+
+This file connects to MongoDB using Mongoose.
+
+It takes the MongoDB URL from .env.
+
+It establishes the database connection.
+
+It is imported inside server.js.
+
+# controllers folder
+
+Controllers handle the logic for each route.
+
+**chatController.js
+
+Receives the user’s chat request.
+
+Extracts user message.
+
+Calls aiService.js to get a meal plan response from AI.
+
+Saves the conversation message (optional).
+
+Returns the AI response to the front-end.
+
+This is where AI → DB → Response happens.
+
+mealPlanController.js
+
+Handles requests related to stored meal plans.
+
+Example tasks:
+
+Save a meal plan to DB
+
+Fetch all meal plans
+
+Fetch a specific one
+
+Delete one
+
+Think of it as “Meal Plan Manager”.
+
+models folder
+
+These define how data is structured in MongoDB.
+
+ChatMessage.js
+
+Schema for storing chat messages.
+
+Each message has: role ("user" or "ai"), text, timestamp.
+
+Optional if you want a chat history.
+
+MealPlan.js
+
+Schema for storing the meal plans returned by AI.
+
+It holds:
+
+title
+
+dailyCalories
+
+goals (weight loss / gain / etc.)
+
+meals (array of meals per day)
+
+createdAt (timestamp)
+
+This structure matches exactly what we tell the AI to return.
+
+routes folder
+
+Routes define the URLs/endpoints your frontend or Postman calls.
+
+chatRoutes.js
+
+Defines routes like POST /api/chat
+
+Sends requests to chatController.js.
+
+Example:
+
+router.post("/chat", chatController.handleChat);
+
+mealPlanRoutes.js
+
+Defines routes for meal plans
+
+GET /api/meal-plans
+
+POST /api/meal-plans
+
+Sends requests to mealPlanController.js.
+
+services folder
+
+This folder is for logic that is not tied to routing or database.
+
+aiService.js
+
+Calls the AI API (OpenAI, Gemini, etc.)
+
+Sends structured prompts.
+
+Forces the AI to return clean JSON, not messy text.
+
+Returns the result to chatController.js.
+
+This file prevents AI chaos. It is the brain of the AI communication.
+
+server.js
+
+This is the entry point.
+
+Imports express, sets up middleware (like JSON parsing).
+
+Connects to MongoDB using db.js.
+
+Loads the routes (chatRoutes, mealPlanRoutes).
+
+Starts the server (app.listen).
+
+Basically:
+This file wakes up your backend.
+
+.env
+
+Stores sensitive keys:
