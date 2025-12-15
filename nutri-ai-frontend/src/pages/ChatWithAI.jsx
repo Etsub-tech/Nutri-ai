@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import "../styles/page.css";
+import "../style/page.css";
 
 function ChatWithAI() {
   const [input, setInput] = useState("");
@@ -24,7 +24,10 @@ function ChatWithAI() {
 
         setMessages(formatted);
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error("Error loading chat history:", err);
+        // Continue with empty messages if history fails to load
+      });
   }, []);
 
   // 2️⃣ Send message
@@ -48,7 +51,11 @@ function ChatWithAI() {
 
       setInput("");
     } catch (error) {
-      console.error(error);
+      console.error("Error sending message:", error);
+      // Remove the user message if the request failed
+      setMessages(messages);
+      const errorMsg = error.response?.data?.details || error.response?.data?.error || error.message || "Failed to send message. Please check your backend connection and try again.";
+      alert(errorMsg);
     }
   };
 
@@ -83,6 +90,7 @@ function ChatWithAI() {
             <input
               value={input}
               onChange={e => setInput(e.target.value)}
+              onKeyPress={e => e.key === 'Enter' && sendMessage()}
               placeholder="Ask me anything about nutrition"
             />
             <button onClick={sendMessage}>Send</button>

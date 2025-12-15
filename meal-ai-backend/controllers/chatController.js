@@ -19,14 +19,18 @@ export const sendMessage = async(req, res) => {
         await chat.save();
 
         res.status(200).json({
-      reply: aiReply,
-      savedChat: chat,
-    });
+            reply: aiReply,
+            savedChat: chat,
+        });
     } catch (error) {
         console.error("Error sending chat message:", error.message);
-        res.status(500).json({ error: "Chat failed" });
+        console.error("Error stack:", error.stack);
+        res.status(500).json({ 
+            error: "Chat failed",
+            details: error.message 
+        });
     }
-    };
+};
 
     //get chathistory
     export const getChatHistory = async(req, res)=>{

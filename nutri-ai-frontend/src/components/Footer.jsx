@@ -6,7 +6,7 @@ function Footer() {
         <div>
           <img
             className="saladImg"
-            src="pics/Screenshot 2025-11-16 004429.png"
+            src="/pics/Screenshot 2025-11-16 004429.png"
             alt="NutriAI Logo"
           />
           <h2>NutriAI</h2>

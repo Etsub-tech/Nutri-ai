@@ -1,6 +1,19 @@
 {
+  "name": "meal-planner",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix nutri-ai-frontend\" \"npm run dev --prefix meal-ai-backend\"",
+    "frontend": "npm run dev --prefix nutri-ai-frontend",
+    "backend": "npm run dev --prefix meal-ai-backend"
+  },
   "dependencies": {
     "openai": "^6.8.1",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
     "react-router-dom": "^7.10.1"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0"
   }
 }

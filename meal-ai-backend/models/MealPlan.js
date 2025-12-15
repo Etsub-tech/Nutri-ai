@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 const mealPlanSchema = new mongoose.Schema({
     goal: String,
-    Preferences: String,
+    preferences: String,
     plan: Object,  //to hold the ai response JSON
+    userId: { type: String, default: "defaultUser" },
     createdAt: { type: Date, default: Date.now }
 });
 

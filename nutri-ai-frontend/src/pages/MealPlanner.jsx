@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import "../styles/page.css";
+import "../style/page.css";
 
 function MealPlanner() {
   const [goalInput, setGoalInput] = useState("");
@@ -12,19 +12,32 @@ function MealPlanner() {
 
   // Called when button is clicked
   const generateMealPlan = async () => {
+    if (!goalInput.trim() || !preference.trim()) {
+      alert("Please fill in both goal and dietary preferences.");
+      return;
+    }
+
     try {
       setLoading(true);
 
       const response = await axios.post("/api/meal-plan", {
-        goal: goalInput,
-        preference,
+        goal: goalInput.trim(),
+        preference: preference.trim(),
         userId: "defaultUser",
       });
 
-      // Expecting response.mealPlan (array)
-      setMealPlan(response.data.mealPlan);
+      // Expecting response.data.mealPlan (array)
+      if (response.data.mealPlan && Array.isArray(response.data.mealPlan) && response.data.mealPlan.length > 0) {
+        setMealPlan(response.data.mealPlan);
+      } else {
+        console.error("Unexpected response format:", response.data);
+        const errorMsg = response.data?.details || response.data?.error || "Failed to generate meal plan. Please try again.";
+        alert(errorMsg);
+      }
     } catch (error) {
       console.error("Failed to generate meal plan", error);
+      const errorMsg = error.response?.data?.details || error.response?.data?.error || error.message || "Failed to generate meal plan. Please check your backend connection and try again.";
+      alert(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -87,7 +100,7 @@ function MealPlanner() {
                       <div className="each-foods" key={mealType}>
                         <img
                           className="days-image"
-                          src="pics/photo-1627308594190-a057cd4bfac8.jpg"
+                          src="/pics/photo-1627308594190-a057cd4bfac8.jpg"
                           alt={mealType}
                         />
                         <p>

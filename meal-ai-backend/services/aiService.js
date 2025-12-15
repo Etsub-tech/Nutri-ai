@@ -3,7 +3,11 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const openai = new OpenAI({ //creates a new OpenAI client instance using your secret API key. “Hey OpenAI, I want to talk to you using my credentials.”
+if (!process.env.OPENAI_API_KEY) {
+    console.error("WARNING: OPENAI_API_KEY is not set in environment variables!");
+}
+
+const openai = new OpenAI({ //creates a new OpenAI client instance using your secret API key. "Hey OpenAI, I want to talk to you using my credentials."
     apiKey: process.env.OPENAI_API_KEY,
 });
 
@@ -28,9 +32,23 @@ export const generateMealPlan = async (goal, preferences) => {
             const text = response.choices[0].message.content.trim();
             let mealPlan;
             try {
-            mealPlan = JSON.parse(text);
+                // Try to extract JSON from markdown code blocks if present
+                let jsonText = text;
+                const jsonMatch = text.match(/```(?:json)?\s*(\{[\s\S]*\})\s*```/);
+                if (jsonMatch) {
+                    jsonText = jsonMatch[1];
+                } else {
+                    // Try to find JSON object in the text
+                    const braceMatch = text.match(/\{[\s\S]*\}/);
+                    if (braceMatch) {
+                        jsonText = braceMatch[0];
+                    }
+                }
+                mealPlan = JSON.parse(jsonText);
             } catch (err) {
-            mealPlan = { planText: text };
+                console.error("Failed to parse JSON from AI response:", err.message);
+                console.error("AI Response text:", text.substring(0, 500));
+                mealPlan = { planText: text };
             }
 
             return mealPlan;
