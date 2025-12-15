@@ -48,13 +48,13 @@ function MealPlanner() {
       <Navbar />
 
       {/* Header */}
-      <div style={{ textAlign: "center", marginTop: "120px" }}>
+      <div style={{ textAlign: "center", marginTop: "120px" }} className="fade-in">
         <h1>AI Meal Planner</h1>
         <p>Create your personalized meal plan based on your goals</p>
       </div>
 
       {/* Preferences */}
-      <div className="first">
+      <div className="first fade-in-delay">
         <h2>Your Preferences</h2>
 
         <div className="inputs">

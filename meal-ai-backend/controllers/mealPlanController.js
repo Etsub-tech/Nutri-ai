@@ -178,3 +178,70 @@ export const getAllMealPlans = async(req, res)=>{
         res.status(500).json({error: "Failed to fetch meal plans"});
     }
 };
+
+// Get meal plan by ID
+export const getMealPlanById = async(req, res)=>{
+    try{
+        const planId = req.params.id;
+        const plan = await MealPlan.findById(planId);
+
+        if(!plan){
+            return res.status(404).json({ message: "Meal plan not found" });
+        }
+
+        // Transform to match frontend expectations
+        const mealPlan = plan.plan && typeof plan.plan === 'object' 
+            ? Object.entries(plan.plan).map(([day, meals]) => {
+                if (Array.isArray(meals)) {
+                    const mealsObj = {};
+                    meals.forEach(meal => {
+                        if (typeof meal === 'string') {
+                            const colonIndex = meal.indexOf(':');
+                            if (colonIndex > 0) {
+                                const mealType = meal.substring(0, colonIndex).trim();
+                                const mealText = meal.substring(colonIndex + 1).trim();
+                                if (mealType && mealText) {
+                                    mealsObj[mealType] = mealText;
+                                }
+                            }
+                        }
+                    });
+                    return { day, meals: mealsObj };
+                }
+                return { day, meals: meals || {} };
+            }).filter(item => item.day && Object.keys(item.meals).length > 0)
+            : [];
+
+        res.status(200).json({
+            ...plan.toObject(),
+            mealPlan: mealPlan,
+            title: `Meal Plan - ${plan.goal}`,
+            date: plan.createdAt.toLocaleDateString()
+        });
+    }
+    catch(error){
+        console.error("Error fetching meal plan:", error.message);
+        res.status(500).json({error: "Failed to fetch meal plan"});
+    }
+};
+
+// Delete meal plan by ID
+export const deleteMealPlan = async(req, res)=>{
+    try{
+        const planId = req.params.id;
+        const deletedPlan = await MealPlan.findByIdAndDelete(planId);
+
+        if(!deletedPlan){
+            return res.status(404).json({ message: "Meal plan not found" });
+        }
+
+        res.status(200).json({ 
+            message: "Meal plan deleted successfully",
+            deletedPlan: deletedPlan
+        });
+    }
+    catch(error){
+        console.error("Error deleting meal plan:", error.message);
+        res.status(500).json({error: "Failed to delete meal plan"});
+    }
+};

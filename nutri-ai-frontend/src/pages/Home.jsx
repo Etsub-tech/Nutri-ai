@@ -11,6 +11,7 @@ export default function Home() {
       <div className="firstPage">
         <div>
           <h1
+            className="fade-in"
             style={{
               color: "rgb(50, 107, 50)",
               paddingTop: "50px",
@@ -21,12 +22,12 @@ export default function Home() {
             Your Personal AI Nutrition Assistant
           </h1>
 
-          <h3 style={{ marginTop: "20px" }}>
+          <h3 className="fade-in-delay" style={{ marginTop: "20px" }}>
             Transform your health journey with personalized meal plans, smart
             grocery lists, and 24/7 AI-powered nutrition guidance.
           </h3>
 
-          <div className="two-buttons" style={{ marginTop: "60px" }}>
+          <div className="two-buttons fade-in-delay" style={{ marginTop: "60px" }}>
             <Link to="/meal-planner" className="startPlannign">
               Start Planning Meals
             </Link>
@@ -45,7 +46,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="everything">
+      <div className="everything fade-in">
         <h1>Everything You Need for a Healthier You</h1>
         <h3 style={{ marginTop: "15px" }}>
           Powerful AI-driven features to help you reach your nutrition goals
@@ -54,7 +55,7 @@ export default function Home() {
 
       <div className="row-boxes">
         <div className="each-row-boxes">
-          <img src="/pics/Screenshot 2025-11-15 172706.png" />
+          <img src="/pics/Screenshot 2025-11-15 172706.png" style={{width: "50px"}} />
           <h2>Smart Meal Planning</h2>
           <p>
             AI-powered meal plans tailored to your goals, preferences, and
@@ -63,7 +64,7 @@ export default function Home() {
         </div>
 
         <div className="each-row-boxes">
-          <img src="/pics/Screenshot 2025-11-15 173328.png" />
+          <img src="/pics/Screenshot 2025-11-15 173328.png" style={{width: "50px"}} />
           <h2>24/7 AI Nutrition Coach</h2>
           <p>
             Get instant answers to your nutrition questions anytime, anywhere.
@@ -71,7 +72,7 @@ export default function Home() {
         </div>
 
         <div className="each-row-boxes">
-          <img src="/pics/Screenshot 2025-11-15 173359.png" />
+          <img src="/pics/Screenshot 2025-11-15 173359.png" style={{width: "50px"}} />
           <h2>Meal Plan History</h2>
           <p>
             Show a timeline of past plans to help users track progress or repeat
@@ -80,7 +81,7 @@ export default function Home() {
         </div>
 
         <div className="each-row-boxes">
-          <img src="/pics/Screenshot 2025-11-15 173423.png" />
+          <img src="/pics/Screenshot 2025-11-15 173423.png" style={{width: "50px"}} />
           <h2>Diverse Recipes</h2>
           <p>
             Access thousands of healthy recipes that match your taste and goals.
@@ -116,7 +117,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="ready">
+        <div className="ready fade-in">
           <h1>Ready to Transform Your Health?</h1>
           <p>
             Take the first step toward a healthier, happier you with simple,

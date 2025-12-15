@@ -1,9 +1,171 @@
+/* LANDING PAGE */
+.landing-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: linear-gradient(135deg, rgb(222, 230, 215) 0%, rgb(200, 220, 200) 100%);
+  transition: all 0.8s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.landing-page::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: float 20s infinite linear;
+  opacity: 0.3;
+}
+
+.landing-logo {
+  width: 120px;
+  border-radius: 50%;
+  transition: all 0.8s ease-in-out;
+  animation: pulse 2s infinite ease-in-out;
+  z-index: 1;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.landing-title {
+  font-size: 48px;
+  margin-top: 10px;
+  transition: all 0.8s ease-in-out;
+  z-index: 1;
+  color: rgb(50, 107, 50);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  animation: fadeInDown 1s ease-out;
+}
+
+/* ANIMATION*/
+.landing-page.animate {
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.landing-page.animate .landing-logo {
+  width: 45px;
+  animation: none;
+}
+
+.landing-page.animate .landing-title {
+  font-size: 22px;
+  margin-left: 10px;
+  animation: none;
+}
+
+.landing-page.animate {
+  flex-direction: row;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-50px, -50px);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+
+
+
 body {
     font-family: 'Quicksand', sans-serif;
     margin: 0;
     padding: 0;
     color: rgb(61, 61, 61);
     scroll-behavior: smooth;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.8s ease-out;
+}
+
+.fade-in-delay {
+    animation: fadeIn 0.8s ease-out 0.2s both;
 }
 
 h1 {
@@ -274,6 +436,12 @@ input {
     box-shadow: 0px 0px 15px rgb(221, 221, 221);
     padding: 30px;
     border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.each-meal-plan:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 5px 20px rgb(200, 200, 200);
 }
 
 .foods {
@@ -290,6 +458,12 @@ input {
     padding: 20px;
     box-shadow: 0px 0px 30px rgb(242, 241, 241);
     border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.each-foods:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 5px 25px rgb(220, 220, 220);
 }
 
 .days-image {
@@ -319,13 +493,28 @@ footer {
     padding: 50px;
     padding-top: 130px;
     column-gap: 30px;
-    background-color: rgb(210, 226, 210);
+    background: linear-gradient(135deg, rgb(210, 226, 210) 0%, rgb(200, 220, 200) 100%);
+    animation: fadeIn 1s ease-out;
+}
+
+.firstPage > div:first-child {
+    animation: slideInLeft 0.8s ease-out;
+}
+
+.firstPage > div:last-child {
+    animation: 0.8s ease-out;
 }
 
 .firstImage {
     max-width: 700px;
     max-height: 800px;
     border-radius: 17px;
+    transition: transform 0.5s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.firstImage:hover {
+    transform: scale(1.05) ;
 }
 
 .startPlannign {
@@ -379,11 +568,29 @@ footer {
     box-shadow: 5px 5px 15px rgb(201, 201, 201);
     border-radius: 20px;
     padding: 30px;
-    transition: 0.3s ease;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+.each-row-boxes:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.each-row-boxes:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.each-row-boxes:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.each-row-boxes:nth-child(4) {
+    animation-delay: 0.4s;
 }
 
 .each-row-boxes:hover {
-    transform: scale(1.05);
+    transform: scale(1.05) translateY(-10px);
+    box-shadow: 8px 8px 20px rgb(150, 150, 150);
 }
 
 .guide {
@@ -398,6 +605,19 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+.guide-each:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.guide-each:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.guide-each:nth-child(3) {
+    animation-delay: 0.3s;
 }
 
 h4 {
@@ -412,6 +632,7 @@ h4 {
     text-align: center;
     margin-top: 200px;
     padding-top: 100px;
+    animation: fadeIn 1s ease-out;
 }
 
 .ready {
@@ -438,12 +659,44 @@ h4 {
     box-shadow: 0px 0px 20px rgb(185, 184, 184);
     padding: 40px;
     border-radius: 30px;
-    transition: 0.3s ease;
+    transition: all 0.3s ease;
     margin-bottom: 50px;
+    position: relative;
+    overflow: hidden;
+}
+
+.eachList::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 255, 212, 0.3), transparent);
+    transition: left 0.5s ease;
 }
 
 .eachList:hover {
-    transform: scale(1.05);
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0px 5px 25px rgb(150, 149, 149);
+}
+
+.eachList:hover::before {
+    left: 100%;
+}
+
+.eachList.selected {
+    border: 3px solid rgb(29, 120, 4);
+    background-color: rgb(240, 255, 240);
+}
+
+.meal-plan-details {
+    margin: 50px 30px;
+    padding: 40px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0px 5px 25px rgb(185, 184, 184);
+    animation: slideInUp 0.5s ease-out;
 }
 
 
@@ -509,6 +762,13 @@ h4 {
 
     .humburgerButton.active {
         transform: rotate(90deg);
+    }
+
+    .user-chat{
+        padding-top: 20px;
+    }
+    .my-ai-chat{
+        padding-top: 20px;
     }
 
     /* Mobile Menu Overlay */

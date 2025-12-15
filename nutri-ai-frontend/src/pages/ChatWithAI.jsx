@@ -63,13 +63,13 @@ function ChatWithAI() {
     <>
       <Navbar />
 
-      <div style={{ marginTop: "120px", textAlign: "center", padding: "0 20px" }}>
+      <div style={{ marginTop: "120px", textAlign: "center", padding: "0 20px" }} className="fade-in">
         <h1>Chat With AI</h1>
         <p>Create your personalized meal plan based on your goals and preferences</p>
       </div>
 
       <div className="chat-body">
-        <div className="ai-chat-container">
+        <div className="ai-chat-container fade-in-delay">
           <h2>Nutrition AI Assistant</h2>
           <hr />
 

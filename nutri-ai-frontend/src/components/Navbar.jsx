@@ -15,7 +15,7 @@ export default function Navbar() {
   };
 
   const handleLogoClick = () => {
-    navigate("/");
+    navigate("/home");
     closeMenu();
   };
 
@@ -45,7 +45,7 @@ export default function Navbar() {
 
         <div className="right">
           <NavLink
-            to="/"
+            to="/home"
             className={({ isActive }) =>
               isActive ? "navigationButtons-home" : "navigationButtons"
             }
@@ -85,10 +85,6 @@ export default function Navbar() {
           >
             Saved Plans
           </NavLink>
-
-          <NavLink to="/login" className="navigationButtons">
-            Logout
-          </NavLink>
         </div>
       </div>
 
@@ -122,7 +118,7 @@ export default function Navbar() {
           onClick={(e) => e.stopPropagation()}
         >
           <NavLink
-            to="/"
+            to="/home"
             className={({ isActive }) =>
               isActive ? "mobile-nav-link active" : "mobile-nav-link"
             }
@@ -159,14 +155,6 @@ export default function Navbar() {
             onClick={closeMenu}
           >
             Saved Plans
-          </NavLink>
-
-          <NavLink 
-            to="/login" 
-            className="mobile-nav-link"
-            onClick={closeMenu}
-          >
-            Logout
           </NavLink>
         </div>
       </div>
