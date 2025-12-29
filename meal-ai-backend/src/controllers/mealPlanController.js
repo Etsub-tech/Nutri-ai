@@ -1,5 +1,5 @@
-import { generateMealPlan } from "../src/services/aiService.js";
-import MealPlan from "../src/models/MealPlan.js";
+import { generateMealPlan } from "../services/aiService.js";
+import MealPlan from "../models/MealPlan.js";
 
 export const createMealPlan = async (req, res) => {
     try{
