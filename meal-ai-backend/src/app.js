@@ -1,27 +1,40 @@
-import express from "express";
-import cors from "cors";
-import connectDb from "./config/db.js";
-import mealPlanRoutes from "./routes/mealPlanRoutes.js";
-import chatRoutes from "./routes/chatRoutes.js";
+import http from "http";
 import dotenv from "dotenv";
+import connectDb from "./config/db.js";
+import { handleChatRoutes } from "./routes/chatRoutes.js";
+import { handleMealPlanRoutes } from "./routes/mealPlanRoutes.js";
+
 dotenv.config(); //activaes .env file loading so i can use variables like port and secret mongodb password.
-
-const app = express();
-
-//middleware
-app.use(cors());
-app.use(express.json());
-
 connectDb();
 
-//Routes
-app.use("/api/meal-plan", mealPlanRoutes);
-app.use("/api/chat", chatRoutes);
+const server = http.createServer(async (req, res) => {    //- http.createServer = building the reception desk  - (req, res) = the receptionist who greets every visitor.  - req = the visitor’s request form (what they want).   - res = the receptionist’s reply form (what you give back).
 
-//health check route
-app.get("/",(req,res)=>{
-    res.send("Meal Planner API is Running");
+ //manual CORs(cross origin resource sharing) settup
+  res.setHeader("Access-Control-Allow-Origin", "*");  //Allows any origin to access this server's resources.
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");  //telling the browser "i allowed clients to send me requests that include content-Type header"
+  
+  if (req.method === "OPTIONS") {
+    res.writeHead(204);
+    return res.end();
+  }
+ 
+  //routing
+  if (req.url.startsWith("/api/chat")) {
+    return handleChatRoutes(req, res);
+  }
+
+  if (req.url.startsWith("/api/meal-plan")) {
+    return handleMealPlanRoutes(req, res);
+  }
+
+  //Default Route
+  res.writeHead(404, { "Content-Type": "application/json" });
+  res.end(JSON.stringify({ error: "Route not found" }));
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT, () =>
+  console.log(`Native Node server running on port ${PORT}`)
+);
+
