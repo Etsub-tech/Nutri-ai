@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import http from "http";
 import dotenv from "dotenv";
 import connectDb from "./config/db.js";
@@ -20,6 +21,29 @@ const server = http.createServer(async (req, res) => {    //- http.createServer 
   }
  
   //routing
+=======
+
+import http from "http";
+import dotenv from "dotenv";
+import connectDB from "./config/db.js";
+import { handleChatRoutes } from "./routes/chatRoutes.js";
+import { handleMealPlanRoutes } from "./routes/mealPlanRoutes.js";
+
+dotenv.config();
+connectDB();
+
+const server = http.createServer(async (req, res) => {
+
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") {
+    res.writeHead(204);
+    return res.end();
+  }
+
+>>>>>>> 07d78ea4464db1b0ee7ddf606fd20389b9c2f4aa
   if (req.url.startsWith("/api/chat")) {
     return handleChatRoutes(req, res);
   }
@@ -28,7 +52,10 @@ const server = http.createServer(async (req, res) => {    //- http.createServer 
     return handleMealPlanRoutes(req, res);
   }
 
+<<<<<<< HEAD
   //Default Route
+=======
+>>>>>>> 07d78ea4464db1b0ee7ddf606fd20389b9c2f4aa
   res.writeHead(404, { "Content-Type": "application/json" });
   res.end(JSON.stringify({ error: "Route not found" }));
 });
@@ -37,4 +64,7 @@ const PORT = process.env.PORT || 5000;
 server.listen(PORT, () =>
   console.log(`Native Node server running on port ${PORT}`)
 );
+<<<<<<< HEAD
 
+=======
+>>>>>>> 07d78ea4464db1b0ee7ddf606fd20389b9c2f4aa
