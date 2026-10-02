@@ -8,7 +8,13 @@ function SavedPlans() {
     const [mealPlans, setMealPlans] = useState([]);
     const [selectedPlan, setSelectedPlan] = useState(null);
     const [loading, setLoading] = useState(false);
-    const userId = "defaultUser";
+    const userId = localStorage.getItem("userId") || localStorage.getItem("user") || "defaultUser";
+
+    useEffect(() => {
+        if (!localStorage.getItem("token")) {
+            window.location.href = "/login";
+        }
+    }, []);
 
     useEffect(() => {
         loadMealPlans();
@@ -26,23 +32,20 @@ function SavedPlans() {
             });
     };
 
-    const handleDelete = async (planId, e) => {
-        e.stopPropagation();
-        if (!window.confirm("Are you sure you want to delete this meal plan?")) {
-            return;
-        }
+// SavedPlans.jsx
+const handleDelete = async (id) => {
+  try {
+    const res = await axios.delete(`http://localhost:5000/api/meal-plan/${id}`);
+    console.log(res.data.message);
+    setMealPlans(prev => prev.filter(plan => plan._id !== id));
+  } catch (err) {
+    console.error("Error deleting meal plan:", err);
+    alert("Failed to delete. Is the backend running?");
+  }
+};
 
-        try {
-            await axios.delete(`/api/meal-plan/${planId}`);
-            setMealPlans(mealPlans.filter(plan => plan._id !== planId));
-            if (selectedPlan && selectedPlan._id === planId) {
-                setSelectedPlan(null);
-            }
-        } catch (error) {
-            console.error("Error deleting meal plan:", error);
-            alert("Failed to delete meal plan. Please try again.");
-        }
-    };
+
+
 
     const handlePlanClick = async (plan) => {
         if (selectedPlan && selectedPlan._id === plan._id) {

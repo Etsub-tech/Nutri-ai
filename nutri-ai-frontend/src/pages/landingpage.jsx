@@ -11,7 +11,12 @@ export default function LandingPage() {
 
     // wait for animation to finish
     setTimeout(() => {
-      navigate("/home");
+      const token = localStorage.getItem("token");
+      if (token) {
+        navigate("/home");
+      } else {
+        navigate("/login");
+      }
     }, 800); // must match CSS animation duration
   };
 

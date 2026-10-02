@@ -1,49 +1,58 @@
 import { chatWithAI } from "../services/aiService.js";
 import ChatMessage from "../models/ChatMessage.js";
+import { parseBody } from "../utils/parseBody.js";
+import { sendResponse } from "../utils/sendResponse.js";
 
-export const sendMessage = async(req, res) => {
-    try{
-        const{message, userId} = req.body;
-        if(!message){
-            return res.status(400).json({error: "Message is required"});
-        }
+/**
+ * POST /api/chat/message
+ */
+export const sendMessage = async (req, res) => {
+  try {
+    const body = await parseBody(req);
+    const { message, userId } = body;
 
-        const aiReply = await chatWithAI(message);
-
-        const chat = new ChatMessage({
-            userId: userId||"defaultUser",
-            userMessage: message,
-            aiReply,
-        });
-
-        await chat.save();
-
-        res.status(200).json({
-            reply: aiReply,
-            savedChat: chat,
-        });
-    } catch (error) {
-        console.error("Error sending chat message:", error.message);
-        console.error("Error stack:", error.stack);
-        res.status(500).json({ 
-            error: "Chat failed",
-            details: error.message 
-        });
+    if (!message) {
+      return sendResponse(res, 400, { error: "Message is required" });
     }
+
+    const aiReply = await chatWithAI(message);
+
+    const chat = new ChatMessage({
+      userId: userId || "defaultUser",
+      userMessage: message,
+      aiReply,
+    });
+
+    await chat.save();
+
+    sendResponse(res, 200, {
+      reply: aiReply,
+      savedChat: chat,
+    });
+  } catch (error) {
+    console.error("Error sending chat message:", error.message);
+    sendResponse(res, 500, {
+      error: "Chat failed",
+      details: error.message,
+    });
+  }
 };
 
-    //get chathistory
-    export const getChatHistory = async(req, res)=>{
-        try{
-            const userId = req.query.userId || "defaultUser";
-            const history = await ChatMessage.find({userId})
-            .sort({createdAt: -1})
-            .limit(10);
+/**
+ * GET /api/chat/history?userId=xxx
+ */
+export const getChatHistory = async (req, res) => {
+  try {
+    const url = new URL(req.url, `http://${req.headers.host}`);
+    const userId = url.searchParams.get("userId") || "defaultUser";
 
-            res.status(200).json(history);
-        }
-        catch(error){
-            console.error("Error fetching chat history:", error.message);
-            res.status(500).json({error: "Failed to get chat history"});
-        }
-    };
+    const history = await ChatMessage.find({ userId })
+      .sort({ createdAt: -1 })
+      .limit(10);
+
+    sendResponse(res, 200, history);
+  } catch (error) {
+    console.error("Error fetching chat history:", error.message);
+    sendResponse(res, 500, { error: "Failed to get chat history" });
+  }
+};

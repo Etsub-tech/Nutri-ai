@@ -1,4 +1,3 @@
-
 export const parseBody = (req) => {
   return new Promise((resolve, reject) => {
     let body = "";
@@ -14,6 +13,15 @@ export const parseBody = (req) => {
         reject(error);
       }
     });
+
+    req.on("error", (err) => {
+      reject(err);
+    });
+
+    // Safety: if request is empty and 'end' never fires
+    setTimeout(() => {
+      if (!body) resolve({});
+    }, 1000);
   });
 };
 

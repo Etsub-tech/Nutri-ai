@@ -5,10 +5,16 @@ import Footer from "../components/Footer";
 import "../style/page.css";
 
 function ChatWithAI() {
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      window.location.href = "/login";
+    }
+  }, []);
+
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
 
-  const userId = "defaultUser";
+  const userId = localStorage.getItem("userId") || localStorage.getItem("user") || "defaultUser";
 
   // 1️⃣ Load chat history when page opens
   useEffect(() => {

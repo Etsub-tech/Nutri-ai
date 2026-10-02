@@ -3,6 +3,9 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "../style/page.css";
 
 export default function Navbar() {
+  const [username, setUsername] = useState("");
+
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -19,6 +22,12 @@ export default function Navbar() {
     closeMenu();
   };
 
+  // Get username from localStorage
+  useEffect(() => {
+    const user = localStorage.getItem("user") || localStorage.getItem("userId") || "";
+    setUsername(user);
+  }, []);
+
   // Prevent body scroll when menu is open
   useEffect(() => {
     if (isMenuOpen) {
@@ -30,6 +39,15 @@ export default function Navbar() {
       document.body.style.overflow = "unset";
     };
   }, [isMenuOpen]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("user");
+    window.location.href = "/register";
+  };
+
+
 
   return (
     <>
@@ -99,7 +117,7 @@ export default function Navbar() {
           <div style={{ color: "green" }}>NutriAI</div>
         </div>
 
-        <button 
+        <button
           className={`humburgerButton ${isMenuOpen ? "active" : ""}`}
           onClick={toggleMenu}
           aria-label="Toggle menu"
@@ -109,11 +127,11 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu Overlay */}
-      <div 
+      <div
         className={`mobile-menu-overlay ${isMenuOpen ? "open" : ""}`}
         onClick={closeMenu}
       >
-        <div 
+        <div
           className={`mobile-menu ${isMenuOpen ? "open" : ""}`}
           onClick={(e) => e.stopPropagation()}
         >
@@ -156,6 +174,8 @@ export default function Navbar() {
           >
             Saved Plans
           </NavLink>
+
+         
         </div>
       </div>
     </>

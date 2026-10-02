@@ -1,10 +1,18 @@
 import { useState } from "react";
-import axios from "axios";
+import API from "../api/api.js";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "../style/page.css";
+import {useEffect } from "react";
+import axios from "axios";
 
 function MealPlanner() {
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      window.location.href = "/login";
+    }
+  }, []);
+
   const [goalInput, setGoalInput] = useState("");
   const [preference, setPreference] = useState("");
   const [mealPlan, setMealPlan] = useState([]); // AI response here
@@ -20,20 +28,34 @@ function MealPlanner() {
     try {
       setLoading(true);
 
-      const response = await axios.post("/api/meal-plan", {
-        goal: goalInput.trim(),
-        preference: preference.trim(),
-        userId: "defaultUser",
+      const userId = localStorage.getItem("userId") || localStorage.getItem("user") || "defaultUser";
+      const BACKEND_URL = "http://localhost:5000"; // local backend
+
+const response = await axios.post(`${BACKEND_URL}/api/meal-plan/create`, {
+  goal: goalInput.trim(),
+  preferences: preference.trim(),
+  userId,
+      },{
+        headers: {
+      "Content-Type": "application/json",
+    },
       });
 
       // Expecting response.data.mealPlan (array)
-      if (response.data.mealPlan && Array.isArray(response.data.mealPlan) && response.data.mealPlan.length > 0) {
-        setMealPlan(response.data.mealPlan);
-      } else {
-        console.error("Unexpected response format:", response.data);
-        const errorMsg = response.data?.details || response.data?.error || "Failed to generate meal plan. Please try again.";
-        alert(errorMsg);
-      }
+    if (response.data.mealPlan && typeof response.data.mealPlan === "object") {
+  const formatted = Object.entries(response.data.mealPlan).map(
+    ([day, meals]) => ({
+      day,
+      meals,
+    })
+  );
+  setMealPlan(formatted);
+} else {
+  console.error("Unexpected response format:", response.data);
+  alert("Invalid meal plan format from server.");
+}
+
+
     } catch (error) {
       console.error("Failed to generate meal plan", error);
       const errorMsg = error.response?.data?.details || error.response?.data?.error || error.message || "Failed to generate meal plan. Please check your backend connection and try again.";

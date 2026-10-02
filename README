@@ -1,136 +1,94 @@
-CORS stands for Cross-Origin Resource Sharing.
-It’s a browser security feature that controls how a web page can make requests to a server that’s on a different origin 
-
-
 # config/db.js
+Purpose
+This file connects the application to MongoDB using Mongoose.
+Responsibilities
+- Reads the MongoDB connection URL from .env
+- Establishes a connection to the database
+- Stops the server if the connection fails
+Usage
+Imported and executed inside app.js
 
-This file connects to MongoDB using Mongoose.
-
-It takes the MongoDB URL from .env.
-
-It establishes the database connection.
-
-It is imported inside server.js.
-
-# controllers folder
-
-Controllers handle the logic for each route.
-
-**chatController.js
-
-Receives the user’s chat request.
-
-Extracts user message.
-
-Calls aiService.js to get a meal plan response from AI.
-
-Saves the conversation message (optional).
-
-Returns the AI response to the front-end.
-
-This is where AI → DB → Response happens.
-
+# controllers Folder
+Controllers contain the business logic. They decide what happens when a request is received.
+chatController.js
+Handles AI chat requests.
+What it does:
+- Receives the user’s message
+- Extracts data from the request body
+- Calls aiService.js to get an AI response
+- Optionally saves the conversation in MongoDB
+- Sends the AI reply back to the frontend
+This is where AI → Database → Response happens.
 mealPlanController.js
+Manages meal plan data.
+What it handles:
+- Generate a new meal plan using AI
+- Save meal plans to MongoDB
+- Fetch all meal plans
+- Fetch a specific meal plan
+- Delete a meal plan
 
-Handles requests related to stored meal plans.
-
-Example tasks:
-
-Save a meal plan to DB
-
-Fetch all meal plans
-
-Fetch a specific one
-
-Delete one
-
-Think of it as “Meal Plan Manager”.
-
-models folder
-
-These define how data is structured in MongoDB.
-
+# models Folder
+Models define how data is stored in MongoDB.
 ChatMessage.js
-
-Schema for storing chat messages.
-
-Each message has: role ("user" or "ai"), text, timestamp.
-
-Optional if you want a chat history.
-
+Schema for chat history. Each chat message includes:
+- userId
+- userMessage
+- aiReply
+- createdAt
+This is optional but useful for chat history.
 MealPlan.js
+Schema for storing meal plans returned by AI. It contains:
+- goal
+- preferences
+- plan (AI-generated JSON)
+- userId
+- createdAt
+This structure matches exactly what the AI is instructed to return.
 
-Schema for storing the meal plans returned by AI.
-
-It holds:
-
-title
-
-dailyCalories
-
-goals (weight loss / gain / etc.)
-
-meals (array of meals per day)
-
-createdAt (timestamp)
-
-This structure matches exactly what we tell the AI to return.
-
-routes folder
-
-Routes define the URLs/endpoints your frontend or Postman calls.
-
+# routes Folder
+Routes define which URL triggers which controller. Because Express is not used, routing is handled manually using if conditions.
 chatRoutes.js
-
-Defines routes like POST /api/chat
-
-Sends requests to chatController.js.
-
-Example:
-
-router.post("/chat", chatController.handleChat);
-
+Defines chat-related endpoints. Examples:
+- POST /api/chat/message
+- GET /api/chat/history
+Each request is forwarded to chatController.js.
 mealPlanRoutes.js
+Defines meal-plan-related endpoints. Examples:
+- POST /api/meal-plan
+- GET /api/meal-plan/latest
+- GET /api/meal-plan/all
+- GET /api/meal-plan/:id
+- DELETE /api/meal-plan/:id
+Each request is forwarded to mealPlanController.js.
 
-Defines routes for meal plans
-
-GET /api/meal-plans
-
-POST /api/meal-plans
-
-Sends requests to mealPlanController.js.
-
-services folder
-
-This folder is for logic that is not tied to routing or database.
-
+# services Folder
+This folder contains logic that is independent of routing and database.
 aiService.js
+Handles all communication with the AI.
+Responsibilities:
+- Sends structured prompts to the AI
+- Forces the AI to return clean JSON
+- Prevents messy or unstructured AI responses
+- Returns the result to the controllers
+This file is the brain of AI communication.
 
-Calls the AI API (OpenAI, Gemini, etc.)
+# app.js (Server Entry Point)
+This is the main backend file.
+What it does:
+- Creates the HTTP server using http.createServer
+- Handles CORS manually
+- Routes incoming requests
+- Connects to MongoDB
+- Starts the backend server
+This file wakes up the backend.
 
-Sends structured prompts.
+# .env File
+Stores sensitive configuration values.
+Examples:
+- MongoDB connection URL
+- Server port
+- AI API key
+This file is never committed to GitHub.
 
-Forces the AI to return clean JSON, not messy text.
-
-Returns the result to chatController.js.
-
-This file prevents AI chaos. It is the brain of the AI communication.
-
-server.js
-
-This is the entry point.
-
-Imports express, sets up middleware (like JSON parsing).
-
-Connects to MongoDB using db.js.
-
-Loads the routes (chatRoutes, mealPlanRoutes).
-
-Starts the server (app.listen).
-
-Basically:
-This file wakes up your backend.
-
-.env
-
-Stores sensitive keys:
+Would you like me to also format this into a developer-friendly README.md style so you can drop it directly into your project documentation?

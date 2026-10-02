@@ -10,6 +10,7 @@
   transition: all 0.8s ease-in-out;
   position: relative;
   overflow: hidden;
+  margin-top: 100px;
 }
 
 .landing-page::before {
@@ -502,7 +503,7 @@ footer {
 }
 
 .firstPage > div:last-child {
-    animation: 0.8s ease-out;
+    animation: slideInRight 0.8s ease-out;
 }
 
 .firstImage {
@@ -771,6 +772,24 @@ h4 {
         padding-top: 20px;
     }
 
+    .user-profile-button {
+        top: 70px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+
+    .user-sidebar {
+        top: 115px;
+        right: -100%;
+        width: 250px;
+    }
+
+    .user-sidebar.open {
+        right: 15px;
+    }
+
     /* Mobile Menu Overlay */
     .mobile-menu-overlay {
         position: fixed;
@@ -825,12 +844,119 @@ h4 {
         padding-left: 35px;
     }
 
-    .mobile-nav-link.active {
-        background-color: rgb(212, 255, 212);
-        color: rgb(29, 120, 4);
-        font-weight: 600;
-        border-left: 4px solid rgb(29, 120, 4);
-    }
+.mobile-nav-link.active {
+    background-color: rgb(212, 255, 212);
+    color: rgb(29, 120, 4);
+    font-weight: 600;
+    border-left: 4px solid rgb(29, 120, 4);
+}
+
+.mobile-user-info {
+    border-top: 1px solid rgb(240, 240, 240);
+    border-bottom: 1px solid rgb(240, 240, 240);
+    margin-top: 10px;
+    padding: 10px 0;
+}
+
+.mobile-logout-button {
+    width: 100%;
+    background-color: rgb(200, 50, 50);
+    color: white;
+    border: none;
+    padding: 18px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.mobile-logout-button:hover {
+    background-color: rgb(180, 40, 40);
+    padding-left: 35px;
+}
+
+/* User Profile Sidebar */
+.user-profile-button {
+    position: fixed;
+    top: 80px;
+    right: 30px;
+    background-color: rgb(15, 120, 15);
+    color: white;
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.user-profile-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.user-profile-button {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-profile-button span {
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.user-sidebar {
+    position: fixed;
+    top: 130px;
+    right: -300px;
+    width: 280px;
+    background-color: white;
+    box-shadow: -5px 5px 15px rgb(192, 192, 192);
+    border-radius: 15px;
+    z-index: 99;
+    transition: right 0.3s ease;
+    padding: 20px;
+}
+
+.user-sidebar.open {
+    right: 30px;
+}
+
+.user-sidebar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.user-info h3 {
+    color: rgb(50, 107, 50);
+    margin: 0;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgb(240, 240, 240);
+}
+
+.logout-button {
+    background-color: rgb(200, 50, 50);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: rgb(180, 40, 40);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
     h1 {
         font-size: 35px;
@@ -1109,6 +1235,29 @@ h4 {
     padding: 0;
     background-color: rgb(228, 250, 228);
     color: rgb(61, 61, 61);
+    min-height: 100vh;
+}
+
+.auth-logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 50px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.auth-logo {
+    width: 50px;
+    height: 50px;
+}
+
+.auth-logo-text {
+    color: rgb(50, 107, 50);
+    font-size: 20px;
+    font-weight: 600;
 }
 
 .auth-container {
@@ -1124,6 +1273,13 @@ h4 {
 h1 {
     text-align: center;
     font-size: 40px;
+    color: rgb(50, 107, 50);
+    margin-bottom: 40px;
+}
+
+.auth-title {
+    text-align: center;
+    font-size: 28px;
     color: rgb(50, 107, 50);
     margin-bottom: 40px;
 }
@@ -1194,6 +1350,19 @@ label {
 }
 
 @media (max-width: 600px) {
+    .auth-logo-container {
+        padding: 15px 20px;
+    }
+
+    .auth-logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .auth-logo-text {
+        font-size: 18px;
+    }
+
     .auth-input {
         width: 85%;
     }
@@ -1210,6 +1379,10 @@ label {
 
     h1 {
         font-size: 28px;
+    }
+
+    .auth-title {
+        font-size: 24px;
     }
 
     .navigationBarPhone {

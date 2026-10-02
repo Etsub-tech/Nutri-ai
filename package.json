@@ -8,6 +8,8 @@
     "backend": "npm run dev --prefix meal-ai-backend"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "jsonwebtoken": "^9.0.3",
     "openai": "^6.8.1",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",

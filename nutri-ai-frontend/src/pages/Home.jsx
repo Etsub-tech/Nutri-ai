@@ -2,12 +2,30 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "../style/page.css";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
+
+  // Close sidebar when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isSidebarOpen && !event.target.closest('.user-sidebar') && !event.target.closest('.user-profile-button')) {
+        setIsSidebarOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isSidebarOpen]);
+
   return (
     <>
       <Navbar />
-
+      
       <div className="firstPage">
         <div>
           <h1
@@ -55,7 +73,7 @@ export default function Home() {
 
       <div className="row-boxes">
         <div className="each-row-boxes">
-          <img src="/pics/Screenshot 2025-11-15 172706.png" style={{width: "50px"}} />
+          <img src="/pics/Screenshot 2025-11-15 172706.png" style={{ width: "50px" }} />
           <h2>Smart Meal Planning</h2>
           <p>
             AI-powered meal plans tailored to your goals, preferences, and
@@ -64,7 +82,7 @@ export default function Home() {
         </div>
 
         <div className="each-row-boxes">
-          <img src="/pics/Screenshot 2025-11-15 173328.png" style={{width: "50px"}} />
+          <img src="/pics/Screenshot 2025-11-15 173328.png" style={{ width: "50px" }} />
           <h2>24/7 AI Nutrition Coach</h2>
           <p>
             Get instant answers to your nutrition questions anytime, anywhere.
@@ -72,7 +90,7 @@ export default function Home() {
         </div>
 
         <div className="each-row-boxes">
-          <img src="/pics/Screenshot 2025-11-15 173359.png" style={{width: "50px"}} />
+          <img src="/pics/Screenshot 2025-11-15 173359.png" style={{ width: "50px" }} />
           <h2>Meal Plan History</h2>
           <p>
             Show a timeline of past plans to help users track progress or repeat
@@ -81,7 +99,7 @@ export default function Home() {
         </div>
 
         <div className="each-row-boxes">
-          <img src="/pics/Screenshot 2025-11-15 173423.png" style={{width: "50px"}} />
+          <img src="/pics/Screenshot 2025-11-15 173423.png" style={{ width: "50px" }} />
           <h2>Diverse Recipes</h2>
           <p>
             Access thousands of healthy recipes that match your taste and goals.

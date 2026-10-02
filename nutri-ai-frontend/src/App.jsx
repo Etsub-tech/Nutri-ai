@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import MealPlanner from "./pages/MealPlanner";
 import SavedPlans from "./pages/SavedPlans";
 import ChatWithAI from "./pages/ChatWithAI";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 
 function App() {
@@ -11,6 +13,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
         <Route path="/meal-planner" element={<MealPlanner />} />
         <Route path="/saved-plans" element={<SavedPlans />} />
