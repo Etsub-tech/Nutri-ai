@@ -6,46 +6,40 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  
 
   // Close sidebar when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (isSidebarOpen && !event.target.closest('.user-sidebar') && !event.target.closest('.user-profile-button')) {
+      if (
+        isSidebarOpen &&
+        !event.target.closest(".user-sidebar") &&
+        !event.target.closest(".user-profile-button")
+      ) {
         setIsSidebarOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isSidebarOpen]);
 
   return (
     <>
       <Navbar />
-      
-      <div className="firstPage">
-        <div>
-          <h1
-            className="fade-in"
-            style={{
-              color: "rgb(50, 107, 50)",
-              paddingTop: "50px",
-              display: "grid",
-              textAlign: "center",
-            }}
-          >
-            Your Personal AI Nutrition Assistant
-          </h1>
 
-          <h3 className="fade-in-delay" style={{ marginTop: "20px" }}>
+      {/* Hero */}
+      <section className="firstPage">
+        <div className="hero-content">
+          <h1 className="hero-title">Your Personal AI Nutrition Assistant</h1>
+
+          <h3 className="hero-subtitle">
             Transform your health journey with personalized meal plans, smart
             grocery lists, and 24/7 AI-powered nutrition guidance.
           </h3>
 
-          <div className="two-buttons fade-in-delay" style={{ marginTop: "60px" }}>
+          <div className="two-buttons">
             <Link to="/meal-planner" className="startPlannign">
               Start Planning Meals
             </Link>
@@ -55,25 +49,24 @@ export default function Home() {
           </div>
         </div>
 
-        <div>
+        <div className="hero-visual">
           <img
             className="firstImage"
             src="/pics/photo-1670164747721-d3500ef757a6.jpg"
-            alt="Healthy food"
+            alt="A plate of fresh, healthy food"
           />
         </div>
-      </div>
+      </section>
 
-      <div className="everything fade-in">
+      {/* Features */}
+      <div className="everything">
         <h1>Everything You Need for a Healthier You</h1>
-        <h3 style={{ marginTop: "15px" }}>
-          Powerful AI-driven features to help you reach your nutrition goals
-        </h3>
+        <h3>Powerful AI-driven features to help you reach your nutrition goals</h3>
       </div>
 
       <div className="row-boxes">
         <div className="each-row-boxes">
-          <img src="/pics/Screenshot 2025-11-15 172706.png" style={{ width: "50px" }} />
+          <img src="/pics/Screenshot 2025-11-15 172706.png" alt="" />
           <h2>Smart Meal Planning</h2>
           <p>
             AI-powered meal plans tailored to your goals, preferences, and
@@ -82,24 +75,22 @@ export default function Home() {
         </div>
 
         <div className="each-row-boxes">
-          <img src="/pics/Screenshot 2025-11-15 173328.png" style={{ width: "50px" }} />
+          <img src="/pics/Screenshot 2025-11-15 173328.png" alt="" />
           <h2>24/7 AI Nutrition Coach</h2>
-          <p>
-            Get instant answers to your nutrition questions anytime, anywhere.
-          </p>
+          <p>Get instant answers to your nutrition questions anytime, anywhere.</p>
         </div>
 
         <div className="each-row-boxes">
-          <img src="/pics/Screenshot 2025-11-15 173359.png" style={{ width: "50px" }} />
+          <img src="/pics/Screenshot 2025-11-15 173359.png" alt="" />
           <h2>Meal Plan History</h2>
           <p>
-            Show a timeline of past plans to help users track progress or repeat
+            Look back on your past plans to track your progress or repeat your
             favorites.
           </p>
         </div>
 
         <div className="each-row-boxes">
-          <img src="/pics/Screenshot 2025-11-15 173423.png" style={{ width: "50px" }} />
+          <img src="/pics/Screenshot 2025-11-15 173423.png" alt="" />
           <h2>Diverse Recipes</h2>
           <p>
             Access thousands of healthy recipes that match your taste and goals.
@@ -107,7 +98,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div style={{ backgroundColor: "rgb(245, 245, 245)" }}>
+      {/* How it works + closing call to action */}
+      <div className="home-steps">
         <div className="how-it-works">
           <h1>How It Works</h1>
           <p>Get started in just three simple steps</p>
@@ -129,24 +121,18 @@ export default function Home() {
           <div className="guide-each">
             <h4>3</h4>
             <h2>Start Living Healthy</h2>
-            <p>
-              Follow your plan, track progress, and chat with AI for support
-            </p>
+            <p>Follow your plan, track progress, and chat with AI for support</p>
           </div>
         </div>
 
-        <div className="ready fade-in">
+        <div className="ready">
           <h1>Ready to Transform Your Health?</h1>
           <p>
             Take the first step toward a healthier, happier you with simple,
             personalized guidance.
           </p>
 
-          <Link
-            to="/meal-planner"
-            className="chatwithai"
-            style={{ border: "none" }}
-          >
+          <Link to="/meal-planner" className="chatwithai">
             Get Started Now
           </Link>
         </div>
