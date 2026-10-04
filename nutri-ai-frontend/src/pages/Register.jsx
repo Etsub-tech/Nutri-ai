@@ -21,14 +21,14 @@ function Register() {
       return;
     }
 
-    try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+    try {const API_URL = import.meta.env.VITE_API_URL;
+
+        const res = await fetch(`${API_URL}/api/auth/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+
 
       if (res.ok) {
         const data = await res.json();
